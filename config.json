@@ -1,0 +1,4 @@
+{
+    "invite": "https://discord.com/api/oauth2/authorize?client_id=853749868693422100&permissions=257088&scope=bot",
+    "prefix": "!p"
+}

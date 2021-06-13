@@ -1,0 +1,16 @@
+{
+  "name": "paimon-gacha-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "paimon.js",
+  "scripts": {
+    "test": "test",
+    "start": "node paimon.js"
+  },
+  "author": "James Tracy",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0"
+  }
+}
