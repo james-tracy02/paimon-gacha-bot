@@ -14,6 +14,6 @@ module.exports = class PrimosCommand extends Command {
 
     async run(message) {
         let user = await users.getUserByDiscordId(message.author.id);
-        return message.say(`${message.author} you have **${user.primoGems}** primo gems.`);
+        return message.say(`${message.author} you have **${user.primoGems} primogems**.`);
     }
 };
