@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../database");
+const sequelize = require("./database");
 
 const User = sequelize.define('user', {
     discordId: DataTypes.TEXT,
@@ -10,7 +10,11 @@ User.removeAttribute('id');
 sequelize.sync();
 
 async function getUserByDiscordId(discordId) {
-    return User.findOne({ where: { discordId }});
+    let user = await User.findOne({ where: { discordId }});
+    if (!user) {
+        user = await makeNewUser(message.author.id);
+    }
+    return user;
 }
 
 async function makeNewUser(discordId) {
@@ -19,5 +23,4 @@ async function makeNewUser(discordId) {
 
 module.exports = {
     getUserByDiscordId,
-    makeNewUser,
 };

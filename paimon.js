@@ -1,19 +1,26 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-
 require('dotenv').config();
-const TOKEN = process.env.TOKEN;
 
-const commands = require('./src/commands');
+const { CommandoClient } = require('discord.js-commando');
+const path = require('path');
+
+const client = new CommandoClient({
+    commandPrefix: '!p',
+    owner: '265902301443653644',
+});
+
+client.registry
+    .registerDefaultTypes()
+    .registerGroups([
+        ['gacha', 'Gacha Related Commands'],
+    ])
+    .registerDefaultGroups()
+    .registerDefaultCommands()
+    .registerCommandsIn(path.join(__dirname, 'src', 'commands'));
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.on('message', message => {
-    if (commands.isCommand(message)) {
-        return commands.handleCommand(message);
-    }
-});
+client.on('error', console.error);
 
-client.login(TOKEN);
+client.login(process.env.TOKEN);
