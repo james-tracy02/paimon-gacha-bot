@@ -12,7 +12,7 @@ sequelize.sync();
 async function getUserByDiscordId(discordId) {
     let user = await User.findOne({ where: { discordId }});
     if (!user) {
-        user = await makeNewUser(message.author.id);
+        user = await makeNewUser(discordId);
     }
     return user;
 }
