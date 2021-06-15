@@ -30,9 +30,9 @@ module.exports = class ClaimCommand extends Command {
         }
         const count = getRandomPrimos();
         user.primoGems += count;
-        user.nextClaim = now.setDate(now.getDate() + 1);
-        user.save();
-        
-        return message.say(`${diamondEmoji} Yay! ${message.author} just claimed ${count} primogems! ${diamondEmoji}`);
+        user.nextClaim = time.addHours(now, config.claimHours);
+        await user.save();
+
+        return message.say(`${diamondEmoji} Yay! ${message.author} just claimed **${count}** primogems! ${diamondEmoji}`);
     }
 };

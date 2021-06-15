@@ -16,6 +16,11 @@ function addUnits(quantity, unit, plural) {
     return `${quantity} ${quantity !== 1 ? plural : unit}`;
 }
 
+function addHours(time, hours) {
+    return time.setTime(now.getTime() + (hours * 60 * 60 * 1000));
+}
+
 module.exports = {
     getTimeInfo,
+    addHours,
 };
