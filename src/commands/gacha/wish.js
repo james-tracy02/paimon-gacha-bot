@@ -20,7 +20,7 @@ module.exports = class WishCommand extends Command {
                     key: 'banner',
                     prompt: 'Which banner would you like to wish on (standard, character, or weapon)?',
                     type: 'string',
-                    oneOf: ['standard', 'character', 'weapon'],
+                    oneOf: ['standard'],
                 },
             ]
         });
