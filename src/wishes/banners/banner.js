@@ -10,10 +10,8 @@ class Banner {
     wish(user) {
         const p = Math.random();
         let cumulativeProbability = 0;
-        console.log(`p = ${p}`);
         let pool = this.lootTable.find(pool => {
             cumulativeProbability += pool.getProbability(user);
-            console.log(cumulativeProbability);
             return p <= cumulativeProbability;
         });
         if(!pool) {

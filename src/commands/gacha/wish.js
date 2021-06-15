@@ -33,7 +33,7 @@ module.exports = class WishCommand extends Command {
             return message.say(`Sorry ${message.author}, you do not have enough primogems to make that wish.\n\n` + 
                 `Required balance: **${error.requiredGems}**. Current balance: **${user.primoGems}**.`);
         }
-        const list = drops.join(", ");
-        return message.say(`Results:\n\`${list}\``);
+        const list = drops.join(`\n`);
+        return message.say(`${message.author}\n\n\`${list}\``);
     }
 };
