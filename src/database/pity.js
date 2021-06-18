@@ -2,10 +2,10 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("./database");
 
 const Pity = sequelize.define('pity', {
-    discordId: DataTypes.TEXT,
-    banner: DataTypes.TEXT,
+    discordId: DataTypes.STRING,
+    banner: DataTypes.STRING,
     stars: DataTypes.INTEGER,
-    gaurantee: DataTypes.BOOLEAN,
+    guarantee: DataTypes.BOOLEAN,
     count: DataTypes.INTEGER,
 });
 
@@ -25,7 +25,7 @@ async function getPityList(discordId, banner) {
 }
 
 function buildPity(discordId, banner, stars) {
-    return Pity.build({ discordId, banner, stars, gaurantee: false, count: 0 });
+    return Pity.build({ discordId, banner, stars, guarantee: false, count: 0 });
 }
 
 async function savePityList(pityList) {

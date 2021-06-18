@@ -2,7 +2,10 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("./database");
 
 const User = sequelize.define('user', {
-    discordId: DataTypes.TEXT,
+    discordId: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+    },
     primoGems: DataTypes.INTEGER,
     nextClaim: DataTypes.DATE,
 });

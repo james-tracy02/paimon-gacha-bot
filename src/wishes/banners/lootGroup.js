@@ -1,16 +1,16 @@
 class LootGroup {
-    constructor(name, isDefault, probability, pity, items, type, isGaurantee) {
+    constructor(name, isDefault, probability, pity, items, type, isGuarantee) {
         this.name = name;
         this.isDefault = isDefault;
         this.probability = probability;
         this.pity = pity;
         this.items = items;
         this.type = type;
-        this.isGaurantee = isGaurantee;
+        this.isGuarantee = isGuarantee;
     }
 
     getProbability(pity) {
-        if (pity.gaurantee && this.isGaurantee) {
+        if (pity.guarantee && this.isGuarantee) {
             return 1;
         }
         return this.probability || 1;
@@ -27,7 +27,7 @@ class LootGroup {
     }
 
     resetPity(pity) {
-        pity.gaurantee = !this.isGaurantee;
+        pity.guarantee = !this.isGuarantee;
     }
 }
 
@@ -71,8 +71,8 @@ class LootGroupBuilder {
         return this;
     }
 
-    setGaurantee() {
-        this.isGaurantee = true;
+    setGuarantee() {
+        this.isGuarantee = true;
     }
 
     build() {
@@ -83,7 +83,7 @@ class LootGroupBuilder {
             this.pity,
             this.items,
             this.type,
-            this.isGaurantee,
+            this.isGuarantee,
         )
     }
 }

@@ -1,10 +1,11 @@
 class Banner {
-    constructor(name, displayName, endDate, price, lootTable) {
+    constructor(name, displayName, endDate, price, lootTable, isRateUp) {
         this.name = name;
         this.displayName = displayName;
         this.endDate = endDate;
         this.price = price;
         this.lootTable = lootTable;
+        this.isRateUp = isRateUp;
         this.lootTable.sort((a, b) => b.stars - a.stars);
     }
 
@@ -68,6 +69,10 @@ class BannerBuilder {
         return this;
     }
 
+    setRateUp() {
+        this.isRateUp = true;
+    }
+
     build() {
         return new Banner(
             this.name,
@@ -75,6 +80,7 @@ class BannerBuilder {
             this.endDate,
             this.price,
             this.lootTable,
+            this.isRateUp,
         );
     }
 }

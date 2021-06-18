@@ -5,7 +5,7 @@ module.exports = class PrimosCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'primos',
-            aliases: ['primogems'],
+            aliases: ['primogems', 'myprimos'],
             group: 'gacha',
             memberName: 'primos',
             description: 'Shows your current number of primogems!',
