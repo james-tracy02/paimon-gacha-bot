@@ -2,6 +2,14 @@ const { Command } = require('discord.js-commando');
 const users = require('../../database/user');
 const wishService = require('../../wishes/wishService');
 
+function makeStars(n) {
+    let stars = '';
+    for(let i = 0; i < n; i++) {
+        stars += '★';
+    }
+    return stars;
+}
+
 module.exports = class WishCommand extends Command {
     constructor(client) {
         super(client, {
@@ -33,7 +41,15 @@ module.exports = class WishCommand extends Command {
             return message.say(`Sorry ${message.author}, you do not have enough primogems to make that wish.\n\n` + 
                 `Required balance: **${error.requiredGems}**. Current balance: **${user.primoGems}**.`);
         }
-        const list = drops.join(` | `);
-        return message.say(`${message.author}\n\`${list}\``);
+        drops.sort((a, b) => {
+            if(a.stars === b.stars) {
+                return (a.type === 'weapon' ? 1 : -1);
+            }
+            return b.stars - a.stars;
+        });
+
+        const dropsString = drops.map(x => `${makeStars(x.stars)} ${x.name}`).join('\n');
+        console.log(dropsString);
+        return message.say(`${message.author}\n${dropsString}`);
     }
 };

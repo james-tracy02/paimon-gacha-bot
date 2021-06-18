@@ -1,21 +1,24 @@
-const { LootPoolBuilder, LootGroupBuilder } = require("../../banner");
+const { LootPoolBuilder } = require('../../lootPool');
+const { LootGroupBuilder } = require('../../lootGroup');
 const characters = require('./characters.json');
 const weapons = require('./weapons.json');
 
 const fourStarCharacters = new LootGroupBuilder()
     .setName('characters')
+    .setType('character')
     .setProbabilty(0.5)
     .addItems(characters)
     .build();
 
 const fourStarWeapons = new LootGroupBuilder()
     .setName('weapons')
+    .setType('weapon')
     .setProbabilty(0.5)
     .addItems(weapons)
     .build();
 
 const fourStarPool = new LootPoolBuilder()
-    .setName('★★★★★')
+    .setStars(4)
     .setProbabilty(0.051)
     .setHardPity(10)
     .addLootGroup(fourStarWeapons)
