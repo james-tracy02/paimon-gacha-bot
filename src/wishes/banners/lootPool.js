@@ -5,7 +5,8 @@ class LootPool {
         probability,
         softPity,
         hardPity,
-        lootGroups
+        lootGroups,
+        softPityProbability
     ) {
         this.stars = stars;
         this.isDefault = isDefault;
@@ -13,25 +14,43 @@ class LootPool {
         this.softPity = softPity;
         this.hardPity = hardPity;
         this.lootGroups = lootGroups;
+        this.softPityProbability = softPityProbability;
     }
 
-    select(user) {
+    select(pity) {
+        this.resetPity(pity);
+
         const p = Math.random();
         let cumulativeProbability = 0;
-        let group = this.lootGroups.find(group => {
-            cumulativeProbability += group.getProbability(user);
-            return p <= cumulativeProbability;
-        });
-        if(!group) {
-            group = this.lootGroups.find(group => group.isDefault);
+        let group;
+        for (let i = 0; i < this.lootGroups.length; i++) {
+            group = this.lootGroups[i];
+            cumulativeProbability += group.getProbability(pity);
+            if (p <= cumulativeProbability) {
+                break;
+            }
         }
-        const item = group.select(user);
+        const item = group.select(pity);
         item.stars = this.stars;
         return item;
     }
 
-    getProbability(user) {
-        return this.probability || 0;
+    getProbability(pity) {
+        if (pity.count >= this.hardPity) {
+            return 1;
+        }
+        if (pity.count >= this.softPity) {
+            return this.softPityProbability;
+        }
+        return this.probability || 1;
+    }
+
+    getPity(pityList) {
+        return pityList.find(pity => pity.stars === this.stars);
+    }
+
+    resetPity(pity) {
+        pity.count = 0;
     }
 }
 
@@ -60,6 +79,11 @@ class LootPoolBuilder {
         return this;
     }
 
+    setSoftPityProbability(softPityProbability) {
+        this.softPityProbability = softPityProbability;
+        return this;
+    }
+
     setHardPity(hardPity) {
         this.hardPity = hardPity;
         return this;
@@ -78,6 +102,7 @@ class LootPoolBuilder {
             this.softPity,
             this.hardPity,
             this.lootGroups,
+            this.softPityProbability,
         );
     }
 }

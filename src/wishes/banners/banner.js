@@ -5,21 +5,36 @@ class Banner {
         this.endDate = endDate;
         this.price = price;
         this.lootTable = lootTable;
+        this.lootTable.sort((a, b) => b.stars - a.stars);
     }
 
-    wish(user) {
+    wish(pityList) {
+        this.incrementPity(pityList);
+        // this.printPities(pityList);
+
         const p = Math.random();
         let cumulativeProbability = 0;
-        let pool = this.lootTable.find(pool => {
-            cumulativeProbability += pool.getProbability(user);
-            return p <= cumulativeProbability;
-        });
-        if(!pool) {
-            pool = this.lootTable.find(pool => pool.isDefault);
+        let pool, pity;
+        for (let i = 0; i < this.lootTable.length; i++) {
+            pool = this.lootTable[i];
+            pity = pool.getPity(pityList);
+            cumulativeProbability += pool.getProbability(pity);
+            if (p <= cumulativeProbability) {
+                break;
+            }
         }
-        const item = pool.select(user);
-
+        const item = pool.select(pity);
         return item;
+    }
+
+    incrementPity(pityList) {
+        pityList.forEach(pity => pity.count += 1);
+    }
+
+    printPities(pityList) {
+        pityList.forEach((pity) => {
+            console.log(`Stars: ${pity.stars}, Count: ${pity.count}`);
+        });
     }
 }
 

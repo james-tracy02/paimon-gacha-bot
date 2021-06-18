@@ -3,25 +3,40 @@ const sequelize = require("./database");
 
 const Pity = sequelize.define('pity', {
     discordId: DataTypes.TEXT,
-    bannerName: DataTypes.TEXT,
-    poolName: DataTypes.TEXT,
-    groupName: DataTypes.TEXT,
+    banner: DataTypes.TEXT,
+    stars: DataTypes.INTEGER,
+    gaurantee: DataTypes.BOOLEAN,
     count: DataTypes.INTEGER,
 });
 
-Pity.removeAttribute('id');
 sequelize.sync();
 
-async function getPityListByDiscordId(discordId) {
-    let pityList = await Pity.findAll({ where: { discordId }});
+async function getPityList(discordId, banner) {
+    let pityList = await Pity.findAll({ where: { discordId, banner: banner.name }});
+    banner.lootTable.forEach(pool => {
+        let pity = pityList.find(pity => pity.stars === pool.stars);
+        if (!pity) {
+            pity = buildPity( discordId, banner.name, pool.stars);
+            pityList.push(pity);
+        }
+    });
+
     return pityList;
 }
 
-async function createPity(discordId, bannerName, poolName, groupName, count) {
-    return Pity.create({ discordId, bannerName, poolName, groupName, count });
+function buildPity(discordId, banner, stars) {
+    return Pity.build({ discordId, banner, stars, gaurantee: false, count: 0 });
+}
+
+async function savePityList(pityList) {
+    for(let i = 0; i < pityList.length; i++) {
+        console.log(`Stars: ${pityList[i].stars}, Count: ${pityList[i].count}`);
+        await pityList[i].save();
+    }
 }
 
 module.exports = {
-    getPityListByDiscordId,
-    createPity,
+    getPityList,
+    buildPity,
+    savePityList,
 };
