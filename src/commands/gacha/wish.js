@@ -10,6 +10,17 @@ function makeStars(n) {
     return stars;
 }
 
+function itemToString(item) {
+    let s = `${makeStars(item.stars)} ${item.name}`;
+    if (item.stars === 4) {
+        s = `**${s}**`;
+    }
+    if (item.stars === 5) {
+        s = `**__${s}__**`;
+    }
+    return s;
+}
+
 module.exports = class WishCommand extends Command {
     constructor(client) {
         super(client, {
@@ -48,7 +59,7 @@ module.exports = class WishCommand extends Command {
             return b.stars - a.stars;
         });
 
-        const dropsString = drops.map(x => `${makeStars(x.stars)} ${x.name}`).join('\n');
+        const dropsString = drops.map(itemToString).join('\n');
         console.log(dropsString);
         return message.say(`${message.author}\n${dropsString}`);
     }
